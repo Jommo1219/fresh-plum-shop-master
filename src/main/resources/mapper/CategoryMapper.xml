@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jommo.mapper.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.jommo.domain.GoodsCategory">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="level" column="level" jdbcType="TINYINT"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="pic" column="pic" jdbcType="VARCHAR"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+    
+    <resultMap id="listWithChildrenMap" type="com.jommo.dto.GoodsCategoryWithChildrenItem" extends="BaseResultMap">
+        <collection property="children" resultMap="BaseResultMap" columnPrefix="child_"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,parent_id,name,
+        level,sort,is_deleted
+    </sql>
+    <select id="listWithChildren" resultMap="listWithChildrenMap">
+        select c1.id,
+               c1.name,
+               c1.pic,
+               c2.id   child_id,
+               c2.name child_name,
+               c2.pic child_pic
+        from goods_category c1
+                 left join goods_category c2 on c1.id = c2.parent_id
+        where c1.parent_id = 0 and c1.is_deleted = 0
+    </select>
+</mapper>

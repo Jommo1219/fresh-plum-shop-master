@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jommo.mapper.OrderItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.jommo.domain.OrderItem">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
+            <result property="goodsId" column="goods_id" jdbcType="BIGINT"/>
+            <result property="goodsPic" column="goods_pic" jdbcType="VARCHAR"/>
+            <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+            <result property="goodsSn" column="goods_sn" jdbcType="VARCHAR"/>
+            <result property="goodsPrice" column="goods_price" jdbcType="DECIMAL"/>
+            <result property="goodsQuantity" column="goods_quantity" jdbcType="INTEGER"/>
+            <result property="goodsSkuId" column="goods_sku_id" jdbcType="BIGINT"/>
+            <result property="goodsSkuCode" column="goods_sku_code" jdbcType="VARCHAR"/>
+            <result property="goodsCategoryId" column="goods_category_id" jdbcType="BIGINT"/>
+            <result property="totalAmount" column="total_amount" jdbcType="DECIMAL"/>
+            <result property="goodsAttr" column="goods_attr" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_id,order_sn,
+        goods_id,goods_pic,goods_name,
+        goods_sn,goods_price,goods_quantity,
+        goods_sku_id,goods_sku_code,goods_category_id,
+        total_amount,goods_attr
+    </sql>
+</mapper>

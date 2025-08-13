@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jommo.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.jommo.domain.Goods">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="goodsCategoryId" column="goods_category_id" jdbcType="BIGINT"/>
+            <result property="goodsAttributeCategoryId" column="goods_attribute_category_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="pic" column="pic" jdbcType="VARCHAR"/>
+            <result property="albumPics" column="album_pics" jdbcType="VARCHAR"/>
+            <result property="goodsSn" column="goods_sn" jdbcType="VARCHAR"/>
+            <result property="publishStatus" column="publish_status" jdbcType="TINYINT"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="sale" column="sale" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="originalPrice" column="original_price" jdbcType="DECIMAL"/>
+            <result property="subTitle" column="sub_title" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="unit" column="unit" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="updateInfoMap" type="com.jommo.dto.GoodsResult" extends="com.jommo.mapper.GoodsMapper.BaseResultMap">
+        <collection property="skuStockList" columnPrefix="sku_" resultMap="com.jommo.mapper.SkuStockMapper.BaseResultMap">
+        </collection>
+        <collection property="goodsAttributeValueList" columnPrefix="attribute_" resultMap="com.jommo.mapper.GoodsAttributeValueMapper.BaseResultMap">
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,goods_category_id,goods_attribute_category_id,
+        name,pic,album_pics,
+        goods_sn,publish_status,sort,
+        sale,price,original_price,
+        sub_title,description,stock,
+        unit,create_time,update_time,
+        is_deleted
+    </sql>
+    <update id="updateSale">
+        update goods
+        set sale = sale + #{goodsQuantity}
+        where id = #{goodsId}
+    </update>
+    <select id="getUpdateInfo" resultMap="updateInfoMap">
+        SELECT *,
+               s.id sku_id,s.goods_id sku_goods_id,s.price sku_price ,s.pic sku_pic,s.sale sku_sale,s.sku_code sku_sku_code,s.stock sku_stock,s.sp_data sku_sp_data,
+               a.id attribute_id,a.goods_id attribute_goods_id,a.goods_attribute_id attribute_goods_attribute_id,a.value attribute_value
+        FROM goods g
+                 LEFT JOIN sku_stock s ON s.goods_id = g.id
+                 LEFT JOIN goods_attribute_value a ON a.goods_id=g.id
+        WHERE g.id=#{id};
+    </select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jommo.mapper.GoodsAttributeMapper">
+
+    <resultMap id="BaseResultMap" type="com.jommo.domain.GoodsAttribute">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="goodsAttributeCategoryId" column="goods_attribute_category_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="inputList" column="input_list" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="goodsAttributeCategoryName" column="goods_attribute_category_name"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,goods_attribute_category_id,name,
+        input_list,create_time,update_time,
+        is_deleted,sort
+    </sql>
+    <select id="selectByGoodsAttributeCategoryIdForPage" resultType="goodsAttribute" parameterType="map">
+        select ga.id,
+               ga.goods_attribute_category_id,
+               ga.name,
+               ga.input_list,
+               ga.create_time,
+               ga.update_time,
+               ga.is_deleted,
+               ga.sort,
+               gac.name as goods_attribute_category_name
+        from goods_attribute ga
+                 join goods_attribute_category gac on ga.goods_attribute_category_id = gac.id
+        where ga.goods_attribute_category_id = #{goodsAttributeCategoryId}
+        order by ga.sort desc
+        limit #{beginNo}, #{size}
+    </select>
+    <select id="selectCountByGoodsAttributeCategoryId" resultType="java.lang.Integer">
+        select count(*)
+        from goods_attribute ga
+                 join goods_attribute_category gac on ga.goods_attribute_category_id = gac.id
+        where ga.goods_attribute_category_id = #{goodsAttributeCategoryId}
+    </select>
+
+
+</mapper>
