@@ -12,8 +12,8 @@ import java.util.List;
 
 public class AliOssUtil {
     private static final String ENDPOINT = "https://oss-cn-beijing.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI5t9Hb8ueuMvdah4FsVbF";
-    private static final String SECRET_ACCESS_KEY = "SOD7f8NQXRUVoqCJVxC0RH71YhLyUU";
+    private static final String ACCESS_KEY_ID = "your_access_key_id";
+    private static final String SECRET_ACCESS_KEY = "your_secret_access_key";
     private static final String BUCKET_NAME = "fresh-plum-shop";
 
     /**
